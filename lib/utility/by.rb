@@ -1,11 +1,16 @@
 class By
   class << self
-    def method_missing(field)
-      SortBy.new(field)
+    def method_missing(field, *arguments)
+      if arguments.any?
+        rankings = arguments.first
+        rank(rankings, field)
+      else
+        SortBy.new(field)
+      end
     end
 
-    def rank(rankings)
-      RankedComparer.new(rankings)
+    def rank(rankings, field)
+      RankedComparer.new(rankings, field)
     end
   end
 

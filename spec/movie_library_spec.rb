@@ -128,7 +128,7 @@ describe MovieLibrary do
       #rankings: Pixar, Disney, CastleRock, MiramaxFilms, RegenceyEnterprises
       rankings = [Studio::Pixar, Studio::Disney, Studio::CastleRock, Studio::MiramaxFilms, Studio::RegencyEnterprises]
       expected_order = [ toy_story, monsters_inc, up, cars, fantasia, pinocchio, dumbo, shawshank_redemption, chasing_amy, man_on_fire]
-      results = library.sorted(By.rank(rankings).then(By.year_published))
+      results = library.sorted(By.studio(rankings).then(By.year_published))
       results.should == expected_order
     end
   end

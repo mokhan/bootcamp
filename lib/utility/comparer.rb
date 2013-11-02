@@ -37,11 +37,11 @@ end
 class RankedComparer
   include Comparer
 
-  def initialize(rankings)
-    @rankings = rankings
+  def initialize(rankings, field)
+    @rankings, @field = rankings, field
   end
 
   def compare(x, y)
-    @rankings.find_index(x.studio) <=> @rankings.find_index(y.studio)
+    @rankings.find_index(x.public_send(@field)) <=> @rankings.find_index(y.public_send(@field))
   end
 end
