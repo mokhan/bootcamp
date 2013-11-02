@@ -96,6 +96,10 @@ describe MovieLibrary do
   end
 
   context 'Sorting movies' do
+    before :each do
+      all_movies.each { |x| library.add(x) }
+    end
+
     it 'Sorts all movies by descending title' do
       expected_order = [up, toy_story, shawshank_redemption, pinocchio, monsters_inc, man_on_fire, fantasia, dumbo, chasing_amy, cars]
       results = library.sort_movies_by_title_descending
@@ -109,12 +113,36 @@ describe MovieLibrary do
     end
 
     it 'Sorts all movies by descending release date' do
+      expected_order = [cars, up, man_on_fire, monsters_inc, chasing_amy, toy_story, shawshank_redemption, dumbo, fantasia, pinocchio ]
+      results = library.sort_movies_by_descending_release_date
+      results.should == expected_order
     end
 
     it 'Sorts all movies by ascending release date' do
+      expected_order = [pinocchio, fantasia, dumbo, shawshank_redemption, toy_story, chasing_amy, monsters_inc, man_on_fire, up, cars]
+      results = library.sort_movies_by_ascending_release_date
+      results.should == expected_order
     end
 
     it 'Sorts all movies by preferred studios and release date ascending' do
+      #rankings: Pixar, Disney, CastleRock, MiramaxFilms, RegenceyEnterprises
+      expected_order = [ toy_story, monsters_inc, up, cars, fantasia, pinocchio, dumbo, shawshank_redemption, chasing_amy, man_on_fire]
+      results = library.sort_movies_by_preferred_studios_and_release_date_ascending
+      results.should == expected_order
+    end
+  end
+
+  context "equality" do
+    it "should not equal" do
+      blah = create_movie(title: 'blah')
+      huh = create_movie(title: 'huh')
+      blah.should_not == huh
+    end
+
+    it "spec_name" do
+      huh1 = create_movie(title: 'huh')
+      huh2 = create_movie(title: 'huh')
+      huh1.should == huh2
     end
   end
 end
