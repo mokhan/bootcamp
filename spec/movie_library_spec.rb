@@ -47,7 +47,7 @@ describe MovieLibrary do
     end
 
     it 'Can find all pixar movies' do
-      results = library.find_all_movies_by_pixar
+      results = library.find_all(Movie.produced_by(Studio::Pixar))
       results.count.should == 4
       results.should include(toy_story)
       results.should include(up)
@@ -56,7 +56,8 @@ describe MovieLibrary do
     end
 
     it 'Can find all movies published by pixar or disney' do
-      results = library.find_all_movies_by_pixar_or_disney
+      movies_by_pixar_or_disney = Movie.produced_by(Studio::Pixar).or(Movie.produced_by(Studio::Disney))
+      results = library.find_all(movies_by_pixar_or_disney)
       results.count.should == 7
       results.should include(toy_story)
       results.should include(up)

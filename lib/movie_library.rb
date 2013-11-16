@@ -19,7 +19,7 @@ class MovieLibrary
     @movies.size
   end
 
-  def find_all_matching(criteria)
+  def find_all(criteria)
     @results = []
     @movies.each do |movie|
       @results.push(movie) if criteria.call(movie)
@@ -27,29 +27,19 @@ class MovieLibrary
     @results
   end
 
-  def find_all_movies_by_pixar()
-    matcher = lambda { |movie| movie.studio == Studio::Pixar }
-    find_all_matching(matcher)
-  end
-
-  def find_all_movies_by_pixar_or_disney()
-    matcher = lambda { |m| m.studio == Studio::Pixar || m.studio == Studio::Disney }
-    find_all_matching(matcher)
-  end
-
   def find_all_movies_not_published_by_pixar()
-    matcher = lambda { |m| m.studio != Studio::Pixar }
-    find_all_matching(matcher)
+    matcher = Movie.produced_by(Studio::Pixar).not
+    find_all(matcher)
   end
 
   def find_all_movies_published_after_2004()
     matcher = lambda { |m| m.year_published > 2004 }
-    find_all_matching(matcher)
+    find_all(matcher)
   end
   
   def find_all_movies_between_1982_and_2003()
     matcher = lambda { |m| m.year_published >= 1982 && m.year_published <= 2003 }
-    find_all_matching(matcher)
+    find_all(matcher)
   end
   
   def sort_movies_by_title_descending()
