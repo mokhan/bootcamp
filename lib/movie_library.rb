@@ -28,7 +28,7 @@ class MovieLibrary
   end
 
   def find_all_movies_not_published_by_pixar()
-    matcher = Movie.produced_by(Studio::Pixar).not
+    matcher = Movie.not.produced_by(Studio::Pixar)
     find_all(matcher)
   end
 
