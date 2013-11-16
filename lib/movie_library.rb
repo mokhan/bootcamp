@@ -18,45 +18,38 @@ class MovieLibrary
   def total_count
     @movies.size
   end
-  
+
+  def find_all_matching(criteria)
+    @results = []
+    @movies.each do |movie|
+      @results.push(movie) if criteria.call(movie)
+    end
+    @results
+  end
+
   def find_all_movies_by_pixar()
-    @pixar_movies = []
-    @movies.each do |m|
-      @pixar_movies.push(m) if m.studio == Studio::Pixar
-    end
-    @pixar_movies
+    matcher = lambda { |movie| movie.studio == Studio::Pixar }
+    find_all_matching(matcher)
   end
-  
+
   def find_all_movies_by_pixar_or_disney()
-    @pixar_disney_movies = []
-    @movies.each do |m|
-      @pixar_disney_movies.push(m) if m.studio == Studio::Pixar || m.studio == Studio::Disney
-    end
-    @pixar_disney_movies
+    matcher = lambda { |m| m.studio == Studio::Pixar || m.studio == Studio::Disney }
+    find_all_matching(matcher)
   end
-  
+
   def find_all_movies_not_published_by_pixar()
-    @non_pixar_movies = []
-    @movies.each do |m|
-      @non_pixar_movies.push(m) if m.studio != Studio::Pixar
-    end
-    @non_pixar_movies
+    matcher = lambda { |m| m.studio != Studio::Pixar }
+    find_all_matching(matcher)
   end
-  
+
   def find_all_movies_published_after_2004()
-    @post_2004_movies = []
-    @movies.each do |m|
-      @post_2004_movies.push(m) if m.year_published > 2004
-    end
-    @post_2004_movies
+    matcher = lambda { |m| m.year_published > 2004 }
+    find_all_matching(matcher)
   end
   
   def find_all_movies_between_1982_and_2003()
-    @movies1982_to_2003 = []
-    @movies.each do |m|
-      @movies1982_to_2003.push(m) if m.year_published >= 1982 && m.year_published <= 2003
-    end
-    @movies1982_to_2003
+    matcher = lambda { |m| m.year_published >= 1982 && m.year_published <= 2003 }
+    find_all_matching(matcher)
   end
   
   def sort_movies_by_title_descending()
