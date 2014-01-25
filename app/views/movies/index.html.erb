@@ -1,5 +1,7 @@
 <h1>movies (<%= @movies.count %>)</h1>
 
+<%= flash[:notice] %>
+
 <ul>
   <% @movies.each do |movie| %>
     <li><%= movie.title %></li>
