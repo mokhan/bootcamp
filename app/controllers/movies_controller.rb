@@ -13,7 +13,7 @@ class MoviesController < ApplicationController
   def create
     @movie = Movie.new(movie_params)
     @movie.save
-    redirect_to movies_path
+    redirect_to movies_path, notice: 'Yay!'
   end
 
   private

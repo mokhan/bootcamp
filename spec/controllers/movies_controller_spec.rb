@@ -47,6 +47,8 @@ describe MoviesController do
       it "should create a new movie" do
         get :create, { :movie => { :title => "even blaher" }}, user_id: '1'
         Movie.count.should == 1
+        response.should redirect_to(movies_path)
+        flash[:notice].should == "Yay!"
       end 
     end
   end
