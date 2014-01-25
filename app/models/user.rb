@@ -1,6 +1,6 @@
 require 'bcrypt'
 
-class User
+class User < ActiveRecord::Base
   def initialize(attributes)
     @salt = BCrypt::Engine.generate_salt(10)
     @encrypted_password = hash_it(attributes[:password])

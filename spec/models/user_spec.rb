@@ -23,4 +23,12 @@ describe User do
       first.should == second
     end
   end
+
+  describe "#save" do
+    it "loads fine from the database" do
+      user = User.new(password: 'blah')
+      user.save!
+      User.find(user.id).authenticate('blah').should be_true
+    end
+  end
 end
