@@ -45,12 +45,20 @@ describe MoviesController do
     end
     context "when logged in" do
       it "should create a new movie" do
-        get :create, { :movie => { :title => "even blaher" }}, user_id: '1'
+        post :create, { :movie => { :title => "even blaher" }}, user_id: '1'
         Movie.count.should == 1
         response.should redirect_to(movies_path)
         flash[:notice].should == "Yay!"
-      end 
+      end
+
+      it "should not create a new movie with the same title" do
+        Movie.create!(title: 'blah')
+        post :create, { movie: { title: 'blah' } }, user_id: '1'
+
+        Movie.count.should == 1
+        response.should render_template("new")
+        flash[:alert].should_not be_empty
+      end
     end
   end
-  
 end

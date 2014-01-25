@@ -1,5 +1,5 @@
 class MoviesController < ApplicationController
-  before_filter :authenticate_admins, except: [:index]
+  before_filter :authenticate, except: [:index]
 
   def index
     @movies = Movie.all
@@ -9,20 +9,24 @@ class MoviesController < ApplicationController
   def new
     @movie = Movie.new
   end
-  
+
   def create
     @movie = Movie.new(movie_params)
-    @movie.save
-    redirect_to movies_path, notice: 'Yay!'
+    if @movie.save
+      redirect_to movies_path, notice: 'Yay!'
+    else
+      flash[:alert] = 'Ooops..'
+      render "new"
+    end
   end
 
   private
-  
+
   def movie_params
     params.require(:movie).permit(:title)
   end
 
-  def authenticate_admins
+  def authenticate
     redirect_to movies_path if session[:user_id].nil?
   end
 end
