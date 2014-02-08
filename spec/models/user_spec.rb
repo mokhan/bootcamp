@@ -26,13 +26,12 @@ describe User do
 
   describe "#save" do
     it "loads fine from the database" do
-      user = User.new(password: 'blah')
+      user = User.new(password: 'password', password_confirmation: 'password')
       user.save!
 
       reloaded_user = User.find(user.id)
-      reloaded_user.authenticate('blah').should be_true
-      reloaded_user.encrypted_password.should_not be_nil
-      reloaded_user.salt.should_not be_nil
+      reloaded_user.authenticate('password').should be_true
+      reloaded_user.password_digest.should_not be_nil
     end
   end
 end
