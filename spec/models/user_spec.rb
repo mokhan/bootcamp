@@ -28,7 +28,11 @@ describe User do
     it "loads fine from the database" do
       user = User.new(password: 'blah')
       user.save!
-      User.find(user.id).authenticate('blah').should be_true
+
+      reloaded_user = User.find(user.id)
+      reloaded_user.authenticate('blah').should be_true
+      reloaded_user.encrypted_password.should_not be_nil
+      reloaded_user.salt.should_not be_nil
     end
   end
 end
