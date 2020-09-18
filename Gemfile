@@ -1,3 +1,3 @@
 source "https://rubygems.org"
-gem 'rspec'
-gem 'guard-rspec', require: false
+
+gem 'rspec', '~> 3.9'
